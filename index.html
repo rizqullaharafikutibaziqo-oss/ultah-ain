@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Ain! 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
+        .container { width: 100%; max-width: 480px; padding: 20px; text-align: center; z-index: 10; }
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 30px 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+        h1 { font-family: 'Sacramento', cursive; font-size: 3.5rem; color: #d81b60; margin-bottom: 5px; }
+        h2 { font-size: 1.2rem; font-weight: 600; color: #6a1b9a; margin-bottom: 20px; }
+        .date-badge {
+            display: inline-block; background: #ffebee; color: #c2185b;
+            padding: 6px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: 600; margin-bottom: 25px;
+        }
+        .countdown-container { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; }
+        .countdown-box { background: #fff; padding: 10px; border-radius: 12px; min-width: 65px; border: 1px solid #f8bbd0; }
+        .countdown-box span { display: block; font-size: 1.4rem; font-weight: 700; color: #ad1457; }
+        .countdown-box p { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+        .music-player {
+            background: #fff0f3; border-radius: 15px; padding: 15px;
+            display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border: 1px solid #ffccd5;
+        }
+        .vinyl {
+            width: 50px; height: 50px; background: #222; border-radius: 50%;
+            border: 3px solid #ff4081; display: flex; align-items: center; justify-content: center; position: relative;
+        }
+        .vinyl.playing { animation: spin 3s linear infinite; }
+        .vinyl::after { content: ''; width: 15px; height: 15px; background: #fff; border-radius: 50%; position: absolute; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .music-info { text-align: left; flex-grow: 1; }
+        .music-info h4 { font-size: 0.95rem; color: #880e4f; font-weight: 600; }
+        .music-info p { font-size: 0.75rem; color: #ad1457; }
+        .play-btn {
+            background: #ff4081; color: white; border: none; width: 38px; height: 38px;
+            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .btn-custom {
+            background: linear-gradient(135deg, #ff4081 0%, #c2185b 100%);
+            color: white; border: none; padding: 12px 25px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 600; cursor: pointer; width: 100%; box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+        }
+        .hidden-message {
+            display: none; margin-top: 15px; background: #fff; padding: 15px;
+            border-radius: 12px; font-size: 0.9rem; color: #555; border-left: 4px solid #ff4081; text-align: left; line-height: 1.5;
+        }
+        footer { margin-top: 20px; font-size: 0.75rem; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Happy Birthday</h1>
+            <h2>Ain 💖</h2>
+            <div class="date-badge">📅 21 Desember</div>
+            <div class="countdown-container" id="countdown">
+                <div class="countdown-box"><span id="days">00</span><p>Hari</p></div>
+                <div class="countdown-box"><span id="hours">00</span><p>Jam</p></div>
+                <div class="countdown-box"><span id="minutes">00</span><p>Menit</p></div>
+                <div class="countdown-box"><span id="seconds">00</span><p>Detik</p></div>
+            </div>
+            <div class="music-player">
+                <div class="vinyl" id="vinylDisc"></div>
+                <div class="music-info">
+                    <h4>So What If I Call</h4>
+                    <p>Tap to play special song ✨</p>
+                </div>
+                <button class="play-btn" id="playBtn" onclick="toggleMusic()">▶</button>
+            </div>
+            <audio id="bgSong" loop>
+                <source src="https://www.bensound.com/bensound-music/bensound-cute.mp3" type="audio/mpeg">
+            </audio>
+            <div class="interactive-section">
+                <button class="btn-custom" onclick="openGift()">🎁 Klik untuk Buka Kejutan!</button>
+                <div class="hidden-message" id="giftMessage">
+                    <b>Pesan Spesial untuk Ain:</b><br>
+                    Selamat ulang tahun ya, Ain! Semoga di usia yang baru ini semua impian, kebahagiaan, dan hal-hal baik selalu menyertai harimu. Tetap jadi pribadi yang luar biasa dan selalu tersenyum! ✨💖
+                </div>
+            </div>
+            <footer>Made with ❤️ for Ain</footer>
+        </div>
+    </div>
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            let year = now.getFullYear();
+            let targetDate = new Date(year, 11, 21);
+            if (now > targetDate) { targetDate = new Date(year + 1, 11, 21); }
+            const diff = targetDate - now;
+            document.getElementById("days").innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById("hours").innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        const song = document.getElementById("bgSong");
+        const playBtn = document.getElementById("playBtn");
+        const vinyl = document.getElementById("vinylDisc");
+        let isPlaying = false;
+        function toggleMusic() {
+            if (!isPlaying) {
+                song.play();
+                playBtn.innerText = "⏸";
+                vinyl.classList.add("playing");
+                isPlaying = true;
+            } else {
+                song.pause();
+                playBtn.innerText = "▶";
+                vinyl.classList.remove("playing");
+                isPlaying = false;
+            }
+        }
+        function openGift() {
+            document.getElementById("giftMessage").style.display = "block";
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+    </script>
+</body>
+</html>
